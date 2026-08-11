@@ -4,6 +4,7 @@ import { getProducts } from '../../services/product.service';
 import { getLowStock, getMovements } from '../../services/inventory.service';
 import { Plus, ArrowRight, AlertTriangle, CheckCircle, Package, History, TrendingUp, TrendingDown, Minus, Layers } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { getGreeting } from '../../utils/helpers';
 
 function Skeleton({ className }) {
   return <div className={`animate-pulse bg-gray-100 rounded-lg ${className}`} />;
@@ -145,7 +146,7 @@ export default function WarehouseDashboard() {
       {/* Page Header */}
       <div className="flex-shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Good morning, {user?.name?.split(' ')[0]}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{getGreeting()}, {user?.name?.split(' ')[0]}</h1>
           <p className="text-sm text-gray-500 mt-0.5">Monitor stock levels and warehouse movements.</p>
         </div>
         <div className="flex gap-2">

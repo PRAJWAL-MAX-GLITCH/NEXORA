@@ -3,7 +3,7 @@ import { useAuth } from '../../context/useAuth';
 import { getCustomers } from '../../services/customer.service';
 import { getChallans } from '../../services/challan.service';
 import { Link, useNavigate } from 'react-router-dom';
-import { formatDate } from '../../utils/helpers';
+import { formatDate, getGreeting } from '../../utils/helpers';
 import { StatusBadge } from '../../components/Badge';
 import { 
   Users, UserCheck, Target, CalendarDays, FileText, CheckCircle2, 
@@ -106,7 +106,7 @@ export default function SalesDashboard() {
       {/* Header */}
       <div className="flex-shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Good morning, {user?.name?.split(' ')[0]}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{getGreeting()}, {user?.name?.split(' ')[0]}</h1>
           <p className="text-sm text-gray-500 mt-1 font-medium">Manage customers, follow-ups and sales operations.</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">

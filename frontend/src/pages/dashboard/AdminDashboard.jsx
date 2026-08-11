@@ -7,7 +7,7 @@ import { getChallans } from '../../services/challan.service';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { Activity, Plus, ArrowRight, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { formatDate } from '../../utils/helpers';
+import { formatDate, getGreeting } from '../../utils/helpers';
 import { StatusBadge } from '../../components/Badge';
 
 const CHART_DATA = [
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
       {/* Page Header */}
       <div className="flex-shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Good morning, {user?.name?.split(' ')[0]}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{getGreeting()}, {user?.name?.split(' ')[0]}</h1>
           <p className="text-sm text-gray-500 mt-0.5">Here's what's happening across your operations.</p>
         </div>
         <div className="flex gap-2">

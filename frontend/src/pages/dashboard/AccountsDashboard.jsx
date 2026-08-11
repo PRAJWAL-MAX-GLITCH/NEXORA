@@ -3,7 +3,7 @@ import { useAuth } from '../../context/useAuth';
 import { getChallans } from '../../services/challan.service';
 import { ArrowRight, FileText, CheckCircle2, XCircle, Clock, Eye } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { formatDate } from '../../utils/helpers';
+import { formatDate, getGreeting } from '../../utils/helpers';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 function Skeleton({ className }) {
@@ -155,7 +155,7 @@ export default function AccountsDashboard() {
       {/* Page Header */}
       <div className="flex-shrink-0 flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Good morning, {user?.name?.split(' ')[0]}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{getGreeting()}, {user?.name?.split(' ')[0]}</h1>
           <p className="text-sm text-gray-500 mt-0.5">Review operational records and challans.</p>
           <p className="text-xs text-gray-400 mt-1">{currentDate}</p>
         </div>
