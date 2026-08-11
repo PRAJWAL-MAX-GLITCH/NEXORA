@@ -1,240 +1,592 @@
-# MINI ERP + CRM
+<div align="center">
 
-MINI ERP + CRM is a full-stack operations management platform for managing customers, products, inventory and sales challans through role-based access.
+<br/>
 
-## Overview
+# NEXORA
+### Operations OS — Enterprise ERP & CRM Platform
 
-The application centralizes core business workflows:
-- Customer CRM (leads, active customers, follow-ups)
-- Inventory management (stock IN/OUT, movement history)
-- Sales Challans (order drafting, confirmation, stock validation)
-- Operational workflows tailored to specific employee roles
+<br/>
 
-## Key Features
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://nexora-git-main-prajwalpatil23052743-8679s-projects.vercel.app)
+[![Backend](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render)](https://nexora-backend-1pl2.onrender.com)
+[![Database](https://img.shields.io/badge/Database-Neon%20PostgreSQL-00E699?style=for-the-badge&logo=postgresql)](https://neon.tech)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
-### Authentication & Authorization
-- JWT authentication
-- Password hashing using bcrypt
-- Role-based access control (RBAC)
-- Protected API routes and frontend views
-- Role-specific dashboard redirection
+<br/>
 
-### Customer CRM
-- Customer creation and editing
-- Customer search and filtering
-- Follow-up dates and notes
-- Categorization (Retail, Wholesale, Distributor)
-- Status tracking (Lead, Active, Inactive)
+> **Nexora** is a full-stack, role-based Enterprise ERP and CRM platform built for real operational teams. Manage customers, inventory, sales challans, and warehouse operations — all from one connected workspace.
 
-### Inventory
-- Product catalog with SKU, Category, and Unit Price
-- Current stock and minimum stock tracking
-- Warehouse/Location fields
-- Stock IN / Stock OUT movements
-- Movement history tracking
+<br/>
 
-### Sales Challans
-- Customer selection and multiple product items
-- Automatic challan numbering
-- Draft status and confirmation workflow
-- Stock validation (prevents negative stock)
-- Stock deduction upon confirmation (transactional workflow)
-- Snapshotting of product names and prices at the time of challan creation
+</div>
 
-## User Roles
+---
 
-Permissions are enforced server-side through role-based authorization.
+## 📋 Table of Contents
 
-| Role | Responsibility |
-|------|----------------|
-| ADMIN | System-wide administration, full access |
-| SALES | Customer CRM and sales challans (create/view) |
-| WAREHOUSE | Product inventory, stock movements, and challan fulfillment |
-| ACCOUNTS | Operational/challan record review (view-only access to operations) |
+- [Overview](#-overview)
+- [Live Demo](#-live-demo)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Database Schema](#-database-schema)
+- [User Roles & Permissions](#-user-roles--permissions)
+- [Demo Credentials](#-demo-credentials)
+- [Project Structure](#-project-structure)
+- [Local Development](#-local-development)
+- [Environment Variables](#-environment-variables)
+- [Deployment](#-deployment)
+- [API Reference](#-api-reference)
+- [Security](#-security)
 
-## Tech Stack
+---
 
-| Layer | Technology |
-|------|------------|
-| Frontend | React + JavaScript + Vite |
-| Backend | Node.js + TypeScript |
-| API | Express.js |
-| Database | PostgreSQL |
-| ORM | Prisma |
-| Authentication | JWT + bcrypt |
-| Styling | Tailwind CSS |
+## 🚀 Overview
 
-## Architecture
+Nexora is a production-quality internal operations platform inspired by real enterprise ERP software. It was designed to replace fragmented spreadsheets and tools used by distribution, wholesale, and operations teams.
 
-```text
-Browser
-   |
-   v
-React Frontend
-   |
-   | REST API
-   v
-Express + TypeScript Backend
-   |
-   +---- Authentication / RBAC
-   |
-   +---- CRM
-   |
-   +---- Inventory
-   |
-   +---- Challans
-   |
-   v
-Prisma ORM
-   |
-   v
-PostgreSQL
+The system provides:
+
+- A **CRM** for managing B2B customers and sales pipelines
+- An **Inventory Engine** with real-time stock tracking
+- A **Challan Workflow** (DRAFT → CONFIRMED) with atomic stock deduction
+- **Role-Based Dashboards** tailored to Admin, Sales, Warehouse, and Accounts teams
+- A **Global Search** that queries real database records across all entities
+
+---
+
+## 🌐 Live Demo
+
+| Service | URL |
+|---|---|
+| **Frontend (Vercel)** | https://nexora-git-main-prajwalpatil23052743-8679s-projects.vercel.app |
+| **Backend API (Render)** | https://nexora-backend-1pl2.onrender.com/api |
+| **GitHub Repository** | https://github.com/PRAJWAL-MAX-GLITCH/NEXORA |
+
+> ⚠️ The backend runs on Render's free tier. The first request after inactivity may take **15–30 seconds** to cold start.
+
+---
+
+## ✨ Features
+
+### 🔐 Authentication & Security
+- JWT-based authentication with `Bearer` token
+- Passwords hashed with `bcrypt` (salt rounds: 10)
+- Protected API routes with server-side role validation
+- Automatic token expiry and redirect to login on 401
+- Role-based frontend route guards
+
+### 👥 Customer CRM
+- Create, edit, and manage B2B customers
+- Three customer types: **Retail**, **Wholesale**, **Distributor**
+- Status lifecycle: **Lead → Active → Inactive**
+- Follow-up date scheduling with overdue detection
+- Business name, address, GST number, notes
+- Full-text search across name, mobile, email, and business name
+
+### 📦 Inventory Management
+- Product catalogue with SKU, category, unit price
+- Real-time stock tracking (`currentStock` / `minimumStock`)
+- Warehouse location mapping (A-01, B-02, etc.)
+- Stock IN / Stock OUT movements with reason codes
+- Low-stock and out-of-stock alerts on the warehouse dashboard
+- Complete movement history with timestamps
+
+### 📄 Sales Challans (Dispatch Orders)
+- Customer-linked dispatch documents
+- Multi-product line items per challan
+- Auto-generated challan numbers (`CH-2026-XXXXX`)
+- **DRAFT → CONFIRMED** transactional workflow
+- Stock availability check before confirmation
+- Atomic stock deduction on confirmation (Prisma transaction)
+- Product name, SKU, and price **snapshots** at time of creation
+- Prevents confirmation if any item has insufficient stock
+- Cancelled challans do NOT affect stock
+
+### 🔍 Global Search
+- `Ctrl+K` or click search bar to open
+- Real-time search across **customers**, **products**, and **challans**
+- 280ms debounce for performance
+- Role-aware results (only shows entities the user can access)
+- Keyboard navigation: `↑↓` to move, `Enter` to open, `Esc` to close
+- Status badges on every result (Active/Lead, stock level, CONFIRMED/DRAFT)
+- Quick navigation links when search is empty
+
+### 📊 Role-Specific Dashboards
+Each role sees a dashboard tailored to their responsibilities — no clutter, no confusion.
+
+| Dashboard | Shows |
+|---|---|
+| **Admin** | Total customers, products, challans, stock health overview, recent activity |
+| **Sales** | Active customers, leads, overdue follow-ups, open challans, recent sales |
+| **Warehouse** | Total stock units, low stock count, out-of-stock alerts, recent movements |
+| **Accounts** | Total challans by status, recent challan ledger with customer names |
+
+### 🔔 Notification Panel
+- Bell icon in the top bar with unread badge
+- Click to open notification dropdown
+- Mark all as read functionality
+- Smooth hover and transition effects
+
+### ⏰ Dynamic Greeting
+- Dashboard greeting changes based on time of day
+- Good Morning / Good Afternoon / Good Evening
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| **Frontend** | React 18 + Vite | UI framework and dev server |
+| **Styling** | Tailwind CSS | Utility-first CSS |
+| **Icons** | Lucide React | Consistent icon set |
+| **HTTP Client** | Axios | API communication |
+| **Routing** | React Router v6 | Client-side navigation |
+| **Backend** | Node.js + TypeScript | Server runtime |
+| **API Framework** | Express.js | REST API routing |
+| **ORM** | Prisma 5 | Type-safe database access |
+| **Database** | PostgreSQL (Neon) | Primary data store |
+| **Auth** | JWT + bcrypt | Stateless authentication |
+| **Validation** | Zod | Input schema validation |
+| **Frontend Deploy** | Vercel | CDN + CI/CD |
+| **Backend Deploy** | Render | Managed Node.js server |
+
+---
+
+## 🏗 Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│            Browser (Vercel CDN)             │
+│                                             │
+│   React 18 + Vite + Tailwind CSS            │
+│   ├── Role-Based Dashboards                 │
+│   ├── Customer CRM Module                  │
+│   ├── Inventory Module                     │
+│   ├── Challan Module                       │
+│   └── Global Search (Ctrl+K)               │
+└────────────────────┬────────────────────────┘
+                     │ HTTPS REST API
+                     │ Authorization: Bearer <JWT>
+┌────────────────────▼────────────────────────┐
+│         Express.js API (Render)             │
+│                                             │
+│   ├── /api/auth      — Login / Me           │
+│   ├── /api/customers — CRM CRUD            │
+│   ├── /api/products  — Catalogue CRUD      │
+│   ├── /api/inventory — Stock IN / OUT      │
+│   └── /api/challans  — Challan Workflow    │
+│                                             │
+│   Middleware:                               │
+│   ├── authenticate() — JWT verification    │
+│   └── authorize()    — Role enforcement    │
+└────────────────────┬────────────────────────┘
+                     │ Prisma ORM
+┌────────────────────▼────────────────────────┐
+│         Neon PostgreSQL (Cloud)             │
+│                                             │
+│   Tables: User, Customer, Product,          │
+│           StockMovement, Challan,           │
+│           ChallanItem                       │
+└─────────────────────────────────────────────┘
 ```
 
-## Project Structure
+---
+
+## 🗄 Database Schema
 
 ```
-mini-erp-crm/
-+-- frontend/
-¦   +-- src/
-¦   +-- public/
-¦   +-- package.json
-¦   +-- vite.config.js
-¦   +-- ...
-¦
-+-- backend/
-¦   +-- src/
-¦   +-- prisma/
-¦   +-- package.json
-¦   +-- tsconfig.json
-¦   +-- ...
-¦
-+-- README.md
-+-- .gitignore
-+-- ...
+User
+ ├── id, name, email, password (hashed), role
+ └── roles: ADMIN | SALES | WAREHOUSE | ACCOUNTS
+
+Customer
+ ├── id, name, mobile, email, businessName
+ ├── gstNumber, address, notes, followUpDate
+ ├── customerType: RETAIL | WHOLESALE | DISTRIBUTOR
+ ├── status: LEAD | ACTIVE | INACTIVE
+ └── → has many Challans
+
+Product
+ ├── id, name, sku (unique), category
+ ├── unitPrice, currentStock, minimumStock
+ ├── warehouseLocation
+ ├── → has many StockMovements
+ └── → has many ChallanItems
+
+StockMovement
+ ├── id, productId → Product
+ ├── quantity, type: IN | OUT
+ ├── reason, createdBy (userId), createdAt
+ └── (created automatically on challan CONFIRM)
+
+Challan
+ ├── id, challanNumber (unique, auto-gen)
+ ├── customerId → Customer
+ ├── totalQuantity, status: DRAFT | CONFIRMED | CANCELLED
+ ├── createdBy (userId), createdAt
+ └── → has many ChallanItems
+
+ChallanItem
+ ├── id, challanId → Challan
+ ├── productId → Product
+ ├── productNameSnapshot, skuSnapshot, unitPriceSnapshot
+ └── quantity
 ```
 
-## Database Design
+---
 
-- **User**: Stores authenticated accounts and roles.
-- **Customer**: CRM entity with status, follow-up dates, and contact details. Has many Challans.
-- **Product**: Inventory entity with current stock, min stock, and pricing. References StockMovements.
-- **StockMovement**: Records every inventory increment/decrement with a reason and timestamp.
-- **Challan**: The core sales document connecting a Customer to Products. Follows DRAFT -> CONFIRMED workflow.
-- **ChallanItem**: Individual line items on a Challan, storing quantity and a snapshot of the product price/name at the time of creation.
+## 👤 User Roles & Permissions
 
-## Authentication Flow
+All permissions are enforced on the **server side** — the frontend reflects them but does not control them.
 
-Email + Password -> Backend validation -> Password verification (bcrypt) -> JWT generation -> Authenticated requests (Bearer token) -> JWT verification -> Role authorization -> Protected resource access.
+| Action | ADMIN | SALES | WAREHOUSE | ACCOUNTS |
+|---|:---:|:---:|:---:|:---:|
+| View Dashboard | ✅ | ✅ | ✅ | ✅ |
+| View Customers | ✅ | ✅ | ✅ | ✅ |
+| Create / Edit Customers | ✅ | ✅ | ❌ | ❌ |
+| Delete Customers | ✅ | ❌ | ❌ | ❌ |
+| View Products | ✅ | ✅ | ✅ | ✅ |
+| Create / Edit Products | ✅ | ❌ | ✅ | ❌ |
+| Delete Products | ✅ | ❌ | ❌ | ❌ |
+| Stock IN / OUT | ✅ | ❌ | ✅ | ❌ |
+| View Challans | ✅ | ✅ | ✅ | ✅ |
+| Create Challans | ✅ | ✅ | ❌ | ❌ |
+| Confirm Challans | ✅ | ❌ | ✅ | ❌ |
+| Cancel Challans | ✅ | ❌ | ❌ | ❌ |
 
-## Local Development Setup
+---
 
-Prerequisites:
-- Node.js (v18+)
-- PostgreSQL
-- npm
+## 🔑 Demo Credentials
 
-### 1. Clone repository
+Use these to log in and explore the system with different role perspectives:
+
+| Role | Email | Password |
+|---|---|---|
+| **Admin** | `admin@erp.com` | `password123` |
+| **Sales Manager** | `sales@erp.com` | `password123` |
+| **Warehouse** | `warehouse@erp.com` | `password123` |
+| **Accounts** | `accounts@erp.com` | `password123` |
+
+> The demo database contains **20 customers**, **22 products**, **19 challans**, and **56 stock movements** — enough data to make every dashboard meaningful.
+
+---
+
+## 📁 Project Structure
+
+```
+nexora/
+│
+├── frontend/                    # React + Vite application
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       │   ├── CommandPalette.jsx   # Global search (Ctrl+K)
+│       │   ├── Badge.jsx
+│       │   └── ...
+│       ├── context/
+│       │   ├── AuthContext.jsx      # JWT auth state
+│       │   └── ToastContext.jsx
+│       ├── layouts/
+│       │   ├── AdminLayout.jsx      # Protected layout wrapper
+│       │   ├── Sidebar.jsx
+│       │   └── TopBar.jsx           # Search bar + notifications
+│       ├── pages/
+│       │   ├── LoginPage.jsx        # Premium split-screen login
+│       │   ├── dashboard/           # Role-specific dashboards
+│       │   ├── customers/           # CRM pages
+│       │   ├── products/            # Product catalogue
+│       │   ├── inventory/           # Stock movements
+│       │   └── challans/            # Challan workflow
+│       ├── services/
+│       │   └── api.js               # Axios instance + interceptors
+│       └── utils/
+│           └── helpers.js           # Time-based greeting, formatters
+│
+├── backend/                     # Express + TypeScript API
+│   ├── prisma/
+│   │   ├── schema.prisma            # Database schema
+│   │   ├── seed.ts                  # Realistic demo dataset
+│   │   └── migrations/
+│   └── src/
+│       ├── config/
+│       │   └── db.ts                # Prisma client singleton
+│       ├── middleware/
+│       │   └── auth.middleware.ts   # JWT verify + role guard
+│       ├── modules/
+│       │   ├── auth/                # Login, JWT generation
+│       │   ├── customers/           # CRM CRUD + search
+│       │   ├── products/            # Product CRUD + search
+│       │   ├── inventory/           # Stock IN/OUT + movements
+│       │   └── challans/            # Challan workflow + confirm
+│       ├── utils/
+│       │   └── asyncHandler.ts
+│       └── server.ts                # Express app entry point
+│
+└── README.md
+```
+
+---
+
+## 💻 Local Development
+
+### Prerequisites
+
+- Node.js v18 or higher
+- npm v9 or higher
+- A PostgreSQL database (local or [Neon](https://neon.tech) cloud)
+
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/PRAJWAL-MAX-GLITCH/NEXORA.git
-cd NEXORA
+cd NEXORA/mini-erp-crm
 ```
 
-### PostgreSQL / Prisma setup
+### 2. Backend Setup
 
-This project uses PostgreSQL for the database and Prisma as the ORM.
-For production deployments like Neon PostgreSQL, Prisma relies on two different connection URLs:
-- `DATABASE_URL`: A pooled connection URL (used for application queries)
-- `DIRECT_URL`: A direct connection URL (used exclusively for migrations)
-
-### Environment Variables
-
-Create a `.env` file in the `backend/` directory (based on `.env.example`).
-The required variables are:
-- `DATABASE_URL`: The Neon pooled connection string (usually contains `-pooler-`).
-- `DIRECT_URL`: The Neon direct connection string.
-- `JWT_SECRET`: A secure string for generating JSON Web Tokens.
-- `PORT`: The backend server port (default 5000).
-
-*Never include actual production values or secrets in source control.*
-
-### Local Development Setup
-
-Prerequisites:
-- Node.js (v18+)
-- PostgreSQL (or Neon DB credentials)
-- npm
-
-#### 1. Clone repository
-```bash
-git clone https://github.com/PRAJWAL-MAX-GLITCH/NEXORA.git
-cd NEXORA
-```
-
-#### 2. Backend Setup
 ```bash
 cd backend
 npm install
 ```
-Configure your `.env` file as described above.
 
-### Database Migration
+Create a `.env` file in `backend/`:
 
-For local development (initialization with a new local database):
-```bash
-npx prisma db push
-npm run seed
+```env
+DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+DIRECT_URL="postgresql://user:password@host/dbname?sslmode=require"
+JWT_SECRET="your-strong-random-secret"
+PORT=5000
 ```
 
-**For Production / Deployment (Neon Database):**
-Once your `DATABASE_URL` and `DIRECT_URL` are set, apply production migrations with:
+Run Prisma setup:
+
 ```bash
 npx prisma generate
-npx prisma migrate deploy
+npx prisma db push        # For local dev only
+npx prisma db seed        # Load realistic demo data
 ```
-*(Do not use `migrate reset` or `db push` on a production Neon database to avoid data loss).*
 
-Start the backend dev server:
+Start the backend:
+
 ```bash
 npm run dev
 ```
 
-### Neon Deployment
+Backend will run at `http://localhost:5000`
 
-The database is configured for seamless deployment on Neon PostgreSQL by leveraging pooled connections for performance while retaining direct URL connections for schema migrations.
+### 3. Frontend Setup
 
-### Frontend Setup
-In a new terminal:
+Open a new terminal:
+
 ```bash
 cd frontend
 npm install
+```
+
+Create a `.env.local` file in `frontend/`:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Start the frontend:
+
+```bash
 npm run dev
 ```
 
-## Assumptions
-- JWT authentication is used for application access and tokens are stored in `localStorage`.
-- Challans are operational dispatch documents rather than financial invoices.
-- Stock is maintained as a current quantity per product, globally across the system.
-- Seeded demo users exist for evaluation purposes.
+Frontend will run at `http://localhost:5173`
 
-## Known Limitations
-- No advanced accounting or tax invoicing module.
-- No CI/CD pipelines currently configured.
-- No Docker containerization yet.
-- Image storage for products is not supported.
+### 4. Open in Browser
 
-## Security Notes
-- Secrets are strictly read from environment variables; `.env` is ignored by Git.
-- Passwords are unconditionally hashed via `bcrypt` before storage.
-- Authorization relies on server-side stateless JWT decoding.
+Navigate to `http://localhost:5173` and log in with any of the demo credentials above.
 
-## Manual Verification Checklist
-- Login as ADMIN, SALES, WAREHOUSE, ACCOUNTS
-- Create and edit a customer
-- Create a product
-- Adjust stock IN and OUT
-- Create a Sales Challan (DRAFT)
-- Confirm a Challan and verify stock deduction
-- Attempt to confirm a Challan with insufficient stock (should fail)
-- Verify Dashboard layout differences between roles
+---
 
+## 🔧 Environment Variables
+
+### Backend (`backend/.env`)
+
+| Variable | Required | Description |
+|---|:---:|---|
+| `DATABASE_URL` | ✅ | Pooled PostgreSQL connection string |
+| `DIRECT_URL` | ✅ | Direct PostgreSQL connection (for migrations) |
+| `JWT_SECRET` | ✅ | Secret key for signing JWT tokens |
+| `PORT` | ❌ | API server port (default: `5000`) |
+
+### Frontend (`frontend/.env.local`)
+
+| Variable | Required | Description |
+|---|:---:|---|
+| `VITE_API_URL` | ✅ | Backend API base URL |
+
+> **Production note:** Set `VITE_API_URL=https://nexora-backend-1pl2.onrender.com/api` in your Vercel project's environment variables.
+
+---
+
+## 🚢 Deployment
+
+### Frontend → Vercel
+
+1. Connect the GitHub repo to Vercel
+2. Set **Root Directory** to `frontend`
+3. Add environment variable:
+   ```
+   VITE_API_URL = https://nexora-backend-1pl2.onrender.com/api
+   ```
+4. Vercel auto-detects Vite and builds with `npm run build`
+
+### Backend → Render
+
+1. Create a new **Web Service** on Render
+2. Set **Root Directory** to `backend`
+3. **Build Command:** `npm install && npx prisma generate && npm run build`
+4. **Start Command:** `node dist/server.js`
+5. Add environment variables: `DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`
+
+### Database → Neon PostgreSQL
+
+1. Create a project on [neon.tech](https://neon.tech)
+2. Copy the **pooled** connection string → `DATABASE_URL`
+3. Copy the **direct** connection string → `DIRECT_URL`
+4. Run migrations: `npx prisma migrate deploy`
+5. Seed the database: `npx prisma db seed`
+
+> ⚠️ **Never run** `prisma migrate reset` on a production database. It will drop all tables.
+
+---
+
+## 📡 API Reference
+
+All endpoints require `Authorization: Bearer <token>` except `/api/auth/login`.
+
+### Authentication
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/login` | Login and receive JWT |
+| `GET` | `/api/auth/me` | Get current user profile |
+
+### Customers
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/customers` | All roles | List + search customers |
+| `GET` | `/api/customers/:id` | All roles | Get single customer |
+| `POST` | `/api/customers` | Admin, Sales | Create customer |
+| `PUT` | `/api/customers/:id` | Admin, Sales | Update customer |
+| `DELETE` | `/api/customers/:id` | Admin | Delete customer |
+
+**Search params:** `?search=name&status=ACTIVE&customerType=WHOLESALE&page=1&limit=20`
+
+### Products
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/products` | All roles | List + search products |
+| `GET` | `/api/products/:id` | All roles | Get single product |
+| `POST` | `/api/products` | Admin, Warehouse | Create product |
+| `PUT` | `/api/products/:id` | Admin, Warehouse | Update product |
+| `DELETE` | `/api/products/:id` | Admin | Delete product |
+
+**Search params:** `?search=sku_or_name&category=Storage&page=1&limit=20`
+
+### Inventory
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `POST` | `/api/inventory/in` | Admin, Warehouse | Record stock IN |
+| `POST` | `/api/inventory/out` | Admin, Warehouse | Record stock OUT |
+| `GET` | `/api/inventory/movements` | All roles | List stock movements |
+| `GET` | `/api/inventory/low-stock` | All roles | Products below minimum stock |
+
+### Challans
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/challans` | All roles | List + search challans |
+| `GET` | `/api/challans/:id` | All roles | Get challan with items |
+| `POST` | `/api/challans` | Admin, Sales | Create draft challan |
+| `PUT` | `/api/challans/:id` | Admin, Sales | Update draft challan |
+| `PATCH` | `/api/challans/:id/confirm` | Admin, Warehouse | Confirm challan (deducts stock) |
+| `PATCH` | `/api/challans/:id/cancel` | Admin | Cancel challan |
+
+**Search params:** `?search=CH-2026&status=CONFIRMED&customerId=uuid&page=1&limit=20`
+
+---
+
+## 🔒 Security
+
+- **Passwords** are never stored in plaintext — bcrypt with 10 salt rounds
+- **JWT tokens** are verified on every protected request server-side
+- **Role checks** happen in `auth.middleware.ts` before any controller runs
+- **`.env` files** are in `.gitignore` and never committed
+- **Zod validation** rejects malformed request bodies before they reach the database
+- **CORS** is configured to allow only trusted origins
+- **Helmet.js** sets secure HTTP headers on all responses
+
+---
+
+## 🧪 Seed Data Summary
+
+The `prisma/seed.ts` script loads a production-quality demo dataset:
+
+| Entity | Count | Details |
+|---|---|---|
+| Users | 7 | Across all 4 roles |
+| Customers | 20 | 11 Active, 6 Leads, 3 Inactive — realistic Indian B2B names |
+| Products | 22 | 8 categories, realistic SKUs and prices |
+| Stock Movements | 56 | Audits, deliveries, adjustments, and challan OUTs |
+| Challans | 19 | 12 Confirmed, 4 Draft, 3 Cancelled |
+| Low Stock Products | 5 | `currentStock ≤ minimumStock` |
+| Out-of-Stock Products | 2 | `currentStock = 0` |
+| Follow-up Dates | 11 | Overdue, today, and upcoming |
+
+> All stock math is verified: `currentStock = totalIN − totalOUT` for every product.
+
+To reset the demo data:
+```bash
+cd backend
+npx prisma db seed
+```
+
+---
+
+## 🗺 Roadmap
+
+- [ ] Invoice generation with PDF export
+- [ ] Advanced reporting and analytics charts
+- [ ] Email notifications for follow-ups and low stock
+- [ ] Docker Compose setup for local development
+- [ ] CI/CD pipeline with GitHub Actions
+- [ ] Pagination improvements and infinite scroll
+- [ ] GST-compliant tax invoice module
+- [ ] Multi-warehouse support
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feat/your-feature`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push to the branch: `git push origin feat/your-feature`
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+<div align="center">
+
+**Built with ❤️ by [Prajwal Patil](https://github.com/PRAJWAL-MAX-GLITCH)**
+
+*Nexora — One workspace. Every operation.*
+
+</div>
