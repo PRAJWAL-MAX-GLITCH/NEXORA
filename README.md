@@ -96,19 +96,19 @@ PostgreSQL
 ```
 mini-erp-crm/
 +-- frontend/
-¦   +-- src/
-¦   +-- public/
-¦   +-- package.json
-¦   +-- vite.config.js
-¦   +-- ...
-¦
+Â¦   +-- src/
+Â¦   +-- public/
+Â¦   +-- package.json
+Â¦   +-- vite.config.js
+Â¦   +-- ...
+Â¦
 +-- backend/
-¦   +-- src/
-¦   +-- prisma/
-¦   +-- package.json
-¦   +-- tsconfig.json
-¦   +-- ...
-¦
+Â¦   +-- src/
+Â¦   +-- prisma/
+Â¦   +-- package.json
+Â¦   +-- tsconfig.json
+Â¦   +-- ...
+Â¦
 +-- README.md
 +-- .gitignore
 +-- ...
@@ -140,29 +140,70 @@ git clone https://github.com/PRAJWAL-MAX-GLITCH/NEXORA.git
 cd NEXORA
 ```
 
-### 2. Backend Setup
+### PostgreSQL / Prisma setup
+
+This project uses PostgreSQL for the database and Prisma as the ORM.
+For production deployments like Neon PostgreSQL, Prisma relies on two different connection URLs:
+- `DATABASE_URL`: A pooled connection URL (used for application queries)
+- `DIRECT_URL`: A direct connection URL (used exclusively for migrations)
+
+### Environment Variables
+
+Create a `.env` file in the `backend/` directory (based on `.env.example`).
+The required variables are:
+- `DATABASE_URL`: The Neon pooled connection string (usually contains `-pooler-`).
+- `DIRECT_URL`: The Neon direct connection string.
+- `JWT_SECRET`: A secure string for generating JSON Web Tokens.
+- `PORT`: The backend server port (default 5000).
+
+*Never include actual production values or secrets in source control.*
+
+### Local Development Setup
+
+Prerequisites:
+- Node.js (v18+)
+- PostgreSQL (or Neon DB credentials)
+- npm
+
+#### 1. Clone repository
+```bash
+git clone https://github.com/PRAJWAL-MAX-GLITCH/NEXORA.git
+cd NEXORA
+```
+
+#### 2. Backend Setup
 ```bash
 cd backend
 npm install
 ```
-Create a `.env` file based on `.env.example`:
-```
-PORT=5000
-DATABASE_URL="postgresql://username:password@localhost:5432/minierp?schema=public"
-JWT_SECRET="your_jwt_secret"
-NODE_ENV="development"
-```
-Initialize the database and seed demo data:
+Configure your `.env` file as described above.
+
+### Database Migration
+
+For local development (initialization with a new local database):
 ```bash
 npx prisma db push
 npm run seed
 ```
+
+**For Production / Deployment (Neon Database):**
+Once your `DATABASE_URL` and `DIRECT_URL` are set, apply production migrations with:
+```bash
+npx prisma generate
+npx prisma migrate deploy
+```
+*(Do not use `migrate reset` or `db push` on a production Neon database to avoid data loss).*
+
 Start the backend dev server:
 ```bash
 npm run dev
 ```
 
-### 3. Frontend Setup
+### Neon Deployment
+
+The database is configured for seamless deployment on Neon PostgreSQL by leveraging pooled connections for performance while retaining direct URL connections for schema migrations.
+
+### Frontend Setup
 In a new terminal:
 ```bash
 cd frontend
