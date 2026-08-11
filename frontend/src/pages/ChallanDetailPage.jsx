@@ -125,7 +125,7 @@ export default function ChallanDetailPage() {
               <div className="w-7 h-7 bg-brand rounded-lg flex items-center justify-center">
                 <div className="w-2.5 h-2.5 border-2 border-white rounded-sm" />
               </div>
-              <span className="text-sm font-bold text-gray-900">MINI ERP</span>
+              <span className="text-sm font-bold text-gray-900">NEXORA</span>
             </div>
             <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Sales Order</h1>
             <div className="text-brand font-bold text-lg mt-1 font-mono">{challan.challanNumber}</div>
@@ -207,7 +207,7 @@ export default function ChallanDetailPage() {
 
         {/* Print footer */}
         <div className="hidden print:block mt-16 pt-6 border-t border-gray-200 text-[10px] text-gray-400 text-center uppercase tracking-widest">
-          Mini ERP — Operations OS · Computer Generated Document
+          Nexora — Operations OS · Computer Generated Document
         </div>
       </div>
 

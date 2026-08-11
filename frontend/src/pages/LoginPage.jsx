@@ -63,7 +63,7 @@ export default function LoginPage() {
             <Server className="w-4 h-4 text-white" />
           </div>
           <div>
-            <div className="text-white font-bold text-sm tracking-wide">MINI ERP</div>
+            <div className="text-white font-bold text-sm tracking-wide">NEXORA</div>
             <div className="text-[9px] text-blue-300/80 uppercase tracking-[0.2em] font-bold">Operations OS</div>
           </div>
         </div>
@@ -128,7 +128,7 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="relative z-10 flex justify-between items-center text-xs font-medium text-gray-500">
           <span>Secure internal operations portal</span>
-          <span>© 2026 Mini ERP</span>
+          <span>© 2026 Nexora</span>
         </div>
       </div>
 
@@ -141,7 +141,7 @@ export default function LoginPage() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
               <Server className="w-4 h-4 text-white" />
             </div>
-            <div className="text-gray-900 font-bold text-lg tracking-wide">MINI ERP</div>
+            <div className="text-gray-900 font-bold text-lg tracking-wide">NEXORA</div>
           </div>
 
           <div className="mb-10 text-center lg:text-left">

@@ -71,7 +71,7 @@ export default function CommandPalette() {
           )}
         </div>
         <div className="px-5 py-3 border-t border-white/5 flex items-center justify-between">
-          <span className="text-[10px] text-white/25 uppercase tracking-widest font-semibold">MINI ERP · Command Palette</span>
+          <span className="text-[10px] text-white/25 uppercase tracking-widest font-semibold">NEXORA · Command Palette</span>
           <div className="flex items-center gap-3 text-[10px] text-white/25">
             <span><kbd className="font-mono">↵</kbd> Select</span>
             <span><kbd className="font-mono">esc</kbd> Close</span>

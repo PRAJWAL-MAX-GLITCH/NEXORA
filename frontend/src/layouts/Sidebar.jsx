@@ -59,7 +59,7 @@ export default function Sidebar({ collapsed, setCollapsed }) {
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
-            <div className="text-sm font-bold text-gray-900 leading-tight tracking-wide">MINI ERP</div>
+            <div className="text-sm font-bold text-gray-900 leading-tight tracking-wide">NEXORA</div>
             <div className="text-[9px] text-gray-500 font-bold uppercase tracking-[0.2em]">Operations OS</div>
           </div>
         )}
