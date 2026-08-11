@@ -132,35 +132,44 @@ export default function LoginPage() {
       </div>
 
       {/* RIGHT PANEL — Authentication Form */}
-      <div className="flex-1 flex items-center justify-center p-6 lg:p-12 relative w-full">
-        
-        {/* Mobile Brand (Hidden on Desktop) */}
-        <div className="absolute top-8 left-6 lg:hidden flex items-center gap-3 animate-fade-in">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
-            <Server className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <div className="text-slate-900 font-bold text-sm tracking-wide leading-none">NEXORA</div>
-            <div className="text-[9px] text-slate-500 uppercase tracking-[0.2em] font-bold mt-1">Operations OS</div>
-          </div>
-        </div>
+      <div className="flex-1 flex flex-col justify-center items-center p-6 lg:p-12 relative w-full bg-[#FBFBFA]">
+        {/* Subtle grid texture */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]" 
+          style={{ 
+            backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`,
+            backgroundSize: '32px 32px' 
+          }} 
+        />
 
-        <div className="w-full max-w-[420px] animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+        <div className="w-full max-w-[420px] relative z-10 flex flex-col h-full justify-center">
           
-          <div className="bg-white rounded-[20px] shadow-xl shadow-slate-200/40 border border-slate-200/60 p-8 lg:p-10">
+          {/* Header Context */}
+          <div className="flex items-center justify-between mb-10 animate-fade-in">
+            <div>
+              <div className="text-gray-900 font-bold text-sm tracking-wide leading-none">NEXORA</div>
+              <div className="text-[9px] text-gray-500 uppercase tracking-[0.2em] font-semibold mt-1.5">Operations OS</div>
+            </div>
+            <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-gray-200/80 bg-white">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#65795F]" />
+              <span className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">Workspace available</span>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-[14px] shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-200/60 p-8 lg:p-10 mb-8 animate-fade-in-up">
             
             <div className="mb-8">
-              <p className="text-[10px] text-blue-600 uppercase tracking-[0.2em] font-bold mb-3">Welcome back</p>
-              <h2 className="text-[26px] font-bold text-slate-900 tracking-tight mb-2">Sign in to your workspace</h2>
-              <p className="text-sm text-slate-500">Use your company credentials to continue.</p>
+              <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold mb-3">Welcome back</p>
+              <h2 className="text-[22px] font-semibold text-gray-900 tracking-tight mb-2">Sign in to your workspace</h2>
+              <p className="text-[13px] text-gray-500 font-medium">Use your company credentials to continue.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">Email address</label>
+                <label className="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-2">Email address</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-blue-500">
-                    <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none transition-colors group-focus-within:text-gray-900">
+                    <Mail className="h-4 w-4 text-gray-400 group-focus-within:text-gray-700 transition-colors" />
                   </div>
                   <input
                     type="email"
@@ -168,16 +177,16 @@ export default function LoginPage() {
                     value={form.email}
                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="you@company.com"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500"
+                    className="w-full bg-[#F8F9FA] border border-gray-200 rounded-lg pl-10 pr-4 py-3 text-[13px] text-gray-900 placeholder-gray-400 outline-none transition-all duration-200 focus:bg-white focus:ring-1 focus:ring-gray-900 focus:border-gray-900"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">Password</label>
+                <label className="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-2">Password</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-blue-500">
-                    <Lock className="h-4 w-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none transition-colors group-focus-within:text-gray-900">
+                    <Lock className="h-4 w-4 text-gray-400 group-focus-within:text-gray-700 transition-colors" />
                   </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -185,12 +194,12 @@ export default function LoginPage() {
                     value={form.password}
                     onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
                     placeholder="••••••••"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-12 py-3.5 text-sm text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500"
+                    className="w-full bg-[#F8F9FA] border border-gray-200 rounded-lg pl-10 pr-10 py-3 text-[13px] text-gray-900 placeholder-gray-400 outline-none transition-all duration-200 focus:bg-white focus:ring-1 focus:ring-gray-900 focus:border-gray-900"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(s => !s)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-lg hover:bg-slate-200/50"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors p-1.5 rounded-md hover:bg-gray-200/50"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -198,8 +207,8 @@ export default function LoginPage() {
               </div>
 
               {error && (
-                <div className="bg-red-50 border border-red-100 text-red-600 rounded-xl px-4 py-3.5 text-sm flex items-center gap-3">
-                  <ShieldCheck className="h-4 w-4 text-red-500 shrink-0" />
+                <div className="bg-[#FEF2F2] border border-[#FEE2E2] text-[#B91C1C] rounded-lg px-4 py-3 text-[12px] flex items-center gap-3">
+                  <ShieldCheck className="h-4 w-4 text-[#EF4444] shrink-0" />
                   <span className="font-medium">{error}</span>
                 </div>
               )}
@@ -207,7 +216,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-12 mt-2 bg-[#0A192F] hover:bg-[#112240] text-white font-medium rounded-xl transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed text-sm shadow-[0_4px_14px_0_rgba(10,25,47,0.3)] hover:shadow-[0_6px_20px_rgba(10,25,47,0.2)] flex items-center justify-center hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full h-11 mt-3 bg-[#1C1F26] hover:bg-[#2D3139] text-white font-medium rounded-lg transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed text-sm shadow-[0_2px_4px_rgba(28,31,38,0.08)] hover:shadow-[0_4px_8px_rgba(28,31,38,0.12)] flex items-center justify-center active:scale-[0.99]"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -216,51 +225,59 @@ export default function LoginPage() {
                 ) : 'Sign in'}
               </button>
             </form>
-
-            {/* Demo Credentials Accordion */}
-            <div className="mt-8 pt-6 border-t border-slate-100">
-              <button
-                type="button"
-                onClick={() => setShowDemo(s => !s)}
-                className="w-full flex items-center justify-between text-slate-600 hover:text-slate-900 transition-colors group"
-              >
-                <span className="font-bold text-[11px] uppercase tracking-wider">
-                  View Demo Credentials
-                </span>
-                <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${showDemo ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {showDemo && (
-                <div className="mt-4 grid grid-cols-1 gap-2 animate-fade-in-up" style={{ animationDelay: '0s', animationDuration: '0.4s' }}>
-                  {DEMO_CREDS.map(cred => (
-                    <button
-                      key={cred.role}
-                      onClick={() => fillDemo(cred)}
-                      className="w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 group transition-all text-left"
-                    >
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
-                          <span className="text-xs font-bold">{cred.role.charAt(0)}</span>
-                        </div>
-                        <div>
-                          <div className="text-[13px] font-bold text-slate-900 leading-tight">{cred.role}</div>
-                          <div className="text-[11px] text-slate-500 font-mono mt-0.5">{cred.email}</div>
-                        </div>
-                      </div>
-                      <div className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 bg-white shadow-sm border border-slate-200 px-2.5 py-1.5 rounded-md text-[10px] font-bold text-blue-600 uppercase tracking-wide">
-                        Select
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
+          </div>
+          
+          <div className="flex items-center gap-3 px-2 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <div className="w-6 h-6 rounded flex items-center justify-center border border-gray-200 bg-white shadow-sm">
+              <Server className="w-3.5 h-3.5 text-gray-500" />
             </div>
+            <div>
+              <div className="text-[10px] text-gray-600 uppercase tracking-widest font-bold leading-none mb-1">Internal Operations Portal</div>
+              <div className="text-[10px] text-gray-400 font-medium">Role-based workspace access</div>
+            </div>
+          </div>
 
+          {/* Demo Credentials Accordion */}
+          <div className="border border-gray-200/80 bg-white rounded-xl overflow-hidden animate-fade-in-up shadow-[0_2px_8px_rgba(0,0,0,0.02)]" style={{ animationDelay: '0.2s' }}>
+            <button
+              type="button"
+              onClick={() => setShowDemo(s => !s)}
+              className="w-full flex items-center justify-between p-4.5 lg:p-5 text-gray-700 hover:bg-gray-50 transition-colors group"
+            >
+              <div className="text-left">
+                <div className="font-bold text-[10px] uppercase tracking-[0.15em] text-gray-900 mb-1">Demo Access</div>
+                <div className="text-[11px] text-gray-500 font-medium">Preconfigured workspace roles</div>
+              </div>
+              <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform duration-300 ${showDemo ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {showDemo && (
+              <div className="border-t border-gray-100 divide-y divide-gray-100 bg-[#FAFAFA]">
+                {DEMO_CREDS.map(cred => (
+                  <button
+                    key={cred.role}
+                    onClick={() => fillDemo(cred)}
+                    className="w-full flex items-center justify-between p-4 hover:bg-white transition-all text-left group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded border border-gray-200 bg-white flex items-center justify-center text-gray-400 group-hover:text-gray-900 transition-colors shadow-sm">
+                        <span className="text-[11px] font-bold">{cred.role.charAt(0)}</span>
+                      </div>
+                      <div>
+                        <div className="text-[11px] font-bold text-gray-700 group-hover:text-gray-900 transition-colors uppercase tracking-widest mb-0.5">{cred.role}</div>
+                        <div className="text-[10px] text-gray-400 font-mono">{cred.email}</div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Mobile Footer */}
-          <div className="mt-8 text-center lg:hidden flex justify-center">
-             <span className="text-[10px] text-slate-400 font-medium">© 2026 Nexora</span>
+          <div className="mt-12 text-center text-gray-400">
+             <div className="text-[9px] font-bold uppercase tracking-widest mb-1.5 text-gray-500">NEXORA • Operations OS</div>
+             <div className="text-[10px] font-medium">Secure internal operations portal</div>
           </div>
 
         </div>
