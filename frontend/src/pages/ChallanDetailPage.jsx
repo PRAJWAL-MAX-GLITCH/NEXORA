@@ -64,7 +64,7 @@ export default function ChallanDetailPage() {
   if (loading || !challan) return <PageLoader />;
 
   const isDraft = challan.status === 'DRAFT';
-  const totalValue = challan.items.reduce((sum, item) => sum + Number(item.quantity || 0) * Number(item.priceAtTime || 0), 0);
+  const totalValue = challan.items.reduce((sum, item) => sum + Number(item.quantity || 0) * Number(item.unitPriceSnapshot || 0), 0);
   const totalQty = challan.items.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
 
   return (
@@ -180,12 +180,12 @@ export default function ChallanDetailPage() {
             {challan.items.map(item => (
               <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                 <td className="py-4">
-                  <div className="font-semibold text-gray-900">{item.product?.name}</div>
-                  <div className="text-[10px] font-mono text-gray-400 uppercase mt-0.5">SKU: {item.product?.sku}</div>
+                  <div className="font-semibold text-gray-900">{item.productNameSnapshot || item.product?.name}</div>
+                  <div className="text-[10px] font-mono text-gray-400 uppercase mt-0.5">SKU: {item.skuSnapshot || item.product?.sku}</div>
                 </td>
                 <td className="py-4 text-center font-bold text-gray-900">{Number(item.quantity || 0)}</td>
-                <td className="py-4 text-right text-gray-500">{formatCurrency(Number(item.priceAtTime || 0))}</td>
-                <td className="py-4 text-right font-bold text-brand">{formatCurrency(Number(item.quantity || 0) * Number(item.priceAtTime || 0))}</td>
+                <td className="py-4 text-right text-gray-500">{formatCurrency(Number(item.unitPriceSnapshot || 0))}</td>
+                <td className="py-4 text-right font-bold text-brand">{formatCurrency(Number(item.quantity || 0) * Number(item.unitPriceSnapshot || 0))}</td>
               </tr>
             ))}
           </tbody>
