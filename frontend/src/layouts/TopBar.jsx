@@ -32,7 +32,7 @@ export default function TopBar({ onToggleSidebar }) {
         {/* Global Search Hint */}
         <div 
           className="hidden md:flex items-center gap-3 bg-gray-50 border border-gray-200 hover:border-brand/50 hover:bg-white transition-colors rounded-xl px-4 py-1.5 cursor-text text-sm w-80 group"
-          onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+          onClick={() => window.dispatchEvent(new CustomEvent('nexora:open-search'))}
         >
           <Search className="h-4 w-4 text-gray-400 group-hover:text-brand transition-colors" />
           <span className="text-gray-500 flex-1">Search or jump to...</span>
